@@ -1,4 +1,5 @@
 const sketchPad = document.querySelector('#sketch-pad');
+const randomColorCheckbox = document.querySelector('#random-colors');
 
 const _padSize = 960;
 
@@ -14,7 +15,11 @@ function makePixel(pixelSize) {
 
 function applyColor(e) {
     let currentColor = extractColorValues(e.target.style.backgroundColor);
-    e.target.style.backgroundColor = makeColorString(addColor(currentColor, [20, 20, 20]));
+    if (randomColorCheckbox.checked) {
+        e.target.style.backgroundColor = makeColorString(addRandomColor(currentColor));
+    } else {
+        e.target.style.backgroundColor = makeColorString(addColor(currentColor, [20, 20, 20]));
+    }
 }
 
 function extractColorValues(colorString) {
@@ -32,6 +37,13 @@ function addColor(currentColor, colorToAdd) {
     if(currentColor[0] > 0) currentColor[0] -= colorToAdd[0];
     if(currentColor[1] > 0) currentColor[1] -= colorToAdd[1];
     if(currentColor[2] > 0) currentColor[2] -= colorToAdd[2];
+    return currentColor;
+}
+
+function addRandomColor(currentColor) {
+    currentColor[0] = Math.random() * 255;
+    currentColor[1] = Math.random() * 255;
+    currentColor[2] = Math.random() * 255;
     return currentColor;
 }
 
